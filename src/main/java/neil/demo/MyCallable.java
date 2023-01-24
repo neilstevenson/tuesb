@@ -1,5 +1,6 @@
 package neil.demo;
 
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Random;
 import java.util.TreeMap;
@@ -69,7 +70,7 @@ public class MyCallable implements Callable<String> {
 			}
 			
 			if (i % 100_000 == 0) {
-				System.out.printf("%d - %s - count %d (max %d)%n", this.id, this.getClass(), i, MAX); 
+				System.out.printf("%d - %s - count %d (max %d) %s%n", this.id, this.getClass(), i, MAX, LocalTime.now().toString()); 
 			}
 		}
 		
