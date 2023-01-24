@@ -76,7 +76,7 @@ public class MyCallable implements Callable<String> {
 		
 		long bestMs = TimeUnit.NANOSECONDS.toMillis(bestNano);
 		long worstMs = TimeUnit.NANOSECONDS.toMillis(worstNano);
-		double avgMs = TimeUnit.NANOSECONDS.toMillis(sumNano) / MAX;
+		double avgMs = TimeUnit.NANOSECONDS.toMillis(sumNano / MAX);
 		
 		return String.format("%d - %s: best %d worst %d sum %d avg %f slow %d",
 				this.id, this.getClass().getSimpleName(), bestMs, worstMs, sumNano, avgMs, slow); 
