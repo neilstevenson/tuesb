@@ -12,7 +12,7 @@ import com.hazelcast.jet.datamodel.Tuple2;
 
 public class MyCallable implements Callable<String> {
 
-	private static final int MAX = 100_000;
+	private static final int MAX = 1_000_000;
 	private static final long SLOW_THRESHOLD_NANOS = 500_000L;
 	
 	private final int id;
@@ -68,8 +68,8 @@ public class MyCallable implements Callable<String> {
 				}
 			}
 			
-			if (i % 10_000 == 0) {
-				System.out.printf("%d - %s - count %d%n", this.id, this.getClass(), i); 
+			if (i % 100_000 == 0) {
+				System.out.printf("%d - %s - count %d (max %d)%n", this.id, this.getClass(), i, MAX); 
 			}
 		}
 		
@@ -77,8 +77,8 @@ public class MyCallable implements Callable<String> {
 		long worstMs = TimeUnit.NANOSECONDS.toMillis(worstNano);
 		double avgMs = TimeUnit.NANOSECONDS.toMillis(sumNano) / MAX;
 		
-		return String.format("%d - %s: best %d worst %d avg %f slow %d",
-				this.id, this.getClass().getSimpleName(), bestMs, worstMs, avgMs, slow); 
+		return String.format("%d - %s: best %d worst %d sum %d avg %f slow %d",
+				this.id, this.getClass().getSimpleName(), bestMs, worstMs, sumNano, avgMs, slow); 
 	}
 
 }

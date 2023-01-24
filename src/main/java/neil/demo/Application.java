@@ -69,7 +69,13 @@ public class Application {
         
         List<Callable<String>> callables = new ArrayList<>();
         int count = Integer.parseInt(System.getProperty("MY_COUNT"));
+        System.out.println("@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@");
         System.out.println("Callables count == " + count);
+        System.out.println("@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@");
+        System.out.println("@@@@@@@@@@@@@");
         for (int i = 0; i < count; i++) {
         	callables.add(new MyCallable(i, hazelcastInstance, treeMap));
         }
