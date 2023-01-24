@@ -13,7 +13,7 @@ import com.hazelcast.jet.datamodel.Tuple2;
 public class MyCallable implements Callable<String> {
 
 	private static final int MAX = 100_000;
-	private static final long SLOW_THRESHOLD_MS = 500L;
+	private static final long SLOW_THRESHOLD_NANOS = 500_000L;
 	
 	private final int id;
 	private final HazelcastInstance hazelcastInstance;
@@ -43,7 +43,6 @@ public class MyCallable implements Callable<String> {
 		
 		for (int i = (-1 * MAX); i < MAX; i++) {
 			long beforeNano = System.nanoTime();
-			long beforeMillis = System.currentTimeMillis();
 			int j = this.random.nextInt(bound);
 			String mapName = data[j].f0();
 			String key = data[j].f1();
@@ -52,7 +51,6 @@ public class MyCallable implements Callable<String> {
 			Object o = Objects.toString(this.hazelcastInstance.getMap(mapName).get(key));
 			
 			long elapsedNano = System.nanoTime() - beforeNano;
-			long elapsedMillis = System.currentTimeMillis() - beforeMillis;
 			// Validate
 			//TimeUnit.NANOSECONDS.sleep(1L + this.random.nextInt(200));
 			
@@ -65,7 +63,7 @@ public class MyCallable implements Callable<String> {
 				if (elapsedNano < bestNano) {
 					bestNano = elapsedNano;
 				}
-				if (elapsedMillis > SLOW_THRESHOLD_MS) {
+				if (elapsedNano > SLOW_THRESHOLD_NANOS) {
 					slow++;
 				}
 			}
