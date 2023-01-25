@@ -24,7 +24,8 @@ public class Application {
 	
 	public static void main(String[] args) throws Exception {
 		String input = System.getProperty("MY_INPUT");
-
+		String mapNameDefault = System.getProperty("MY_MAP_NAME", "");
+		
 		ClientConfig clientConfig = new ClientConfig();
 
 		clientConfig.setInstanceName(MY_NAME);
@@ -45,6 +46,8 @@ public class Application {
 
     	System.out.println("START ------------" + new Date());
     	System.out.println("Input: " + Objects.toString(input));
+    	System.out.println("MapName: '" + Objects.toString(mapNameDefault) + "'");
+    	System.out.println("Map count " + hazelcastInstance.getDistributedObjects().size());
     	File file = new File(input);
     	
         try (BufferedReader bufferedReader =
@@ -77,7 +80,7 @@ public class Application {
         System.out.println("@@@@@@@@@@@@@");
         System.out.println("@@@@@@@@@@@@@");
         for (int i = 0; i < count; i++) {
-        	callables.add(new MyCallable(i, hazelcastInstance, treeMap));
+        	callables.add(new MyCallable(i, hazelcastInstance, treeMap, mapNameDefault));
         }
         
         ExecutorService executorService = Executors.newFixedThreadPool(callables.size());

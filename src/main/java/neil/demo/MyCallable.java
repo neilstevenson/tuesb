@@ -20,11 +20,13 @@ public class MyCallable implements Callable<String> {
 	private final HazelcastInstance hazelcastInstance;
 	private final TreeMap<String, String> treeMap;
 	private final Random random = ThreadLocalRandom.current();
+	private final String mapNameDefault;
 	
-	public MyCallable(int id, HazelcastInstance hazelcastInstance, TreeMap<String, String> treeMap) {
+	public MyCallable(int id, HazelcastInstance hazelcastInstance, TreeMap<String, String> treeMap, String mapNameDefault) {
 		this.id = id;
 		this.hazelcastInstance = hazelcastInstance;
 		this.treeMap = treeMap;
+		this.mapNameDefault = mapNameDefault;
 	}
 
 	@Override
@@ -45,8 +47,15 @@ public class MyCallable implements Callable<String> {
 		for (int i = (-1 * MAX); i < MAX; i++) {
 			long beforeNano = System.nanoTime();
 			int j = this.random.nextInt(bound);
-			String mapName = "tues";
-			String key = data[j].f0() + "-" + data[j].f1();
+			String mapName = null;
+			String key = null;
+        	if (mapNameDefault.equals("")) {
+        		mapName = data[j].f0();
+        		key = data[j].f1();
+        	} else {
+        		mapName = this.mapNameDefault;
+        		key = data[j].f0() + "-" + data[j].f1();
+        	}
 			
 			@SuppressWarnings("unused")
 			Object o = Objects.toString(this.hazelcastInstance.getMap(mapName).get(key));
