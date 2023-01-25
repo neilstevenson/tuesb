@@ -79,7 +79,7 @@ public class MyCallable implements Callable<String> {
 			}
 			
 			if (i % 100_000 == 0) {
-				System.out.printf("%d - %s - count %d (max %d) %s%n", this.id, this.getClass(), i, MAX, LocalTime.now().toString()); 
+				System.out.printf("%d - %s - count %d (max %d) %s map '%s'%n", this.id, this.getClass(), i, MAX, LocalTime.now().toString(), mapName); 
 			}
 		}
 		
