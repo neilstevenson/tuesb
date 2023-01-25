@@ -45,7 +45,6 @@ public class MyCallable implements Callable<String> {
 		long slow = 0;
 		
 		for (int i = (-1 * MAX); i < MAX; i++) {
-			long beforeNano = System.nanoTime();
 			int j = this.random.nextInt(bound);
 			String mapName = null;
 			String key = null;
@@ -58,9 +57,10 @@ public class MyCallable implements Callable<String> {
         	}
 			
 			@SuppressWarnings("unused")
+			long beforeNano = System.nanoTime();
 			Object o = Objects.toString(this.hazelcastInstance.getMap(mapName).get(key));
-			
 			long elapsedNano = System.nanoTime() - beforeNano;
+
 			// Validate
 			//TimeUnit.NANOSECONDS.sleep(1L + this.random.nextInt(200));
 			
