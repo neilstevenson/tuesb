@@ -45,8 +45,8 @@ public class MyCallable implements Callable<String> {
 		for (int i = (-1 * MAX); i < MAX; i++) {
 			long beforeNano = System.nanoTime();
 			int j = this.random.nextInt(bound);
-			String mapName = data[j].f0();
-			String key = data[j].f1();
+			String mapName = "tues";
+			String key = data[j].f0() + "-" + data[j].f1();
 			
 			@SuppressWarnings("unused")
 			Object o = Objects.toString(this.hazelcastInstance.getMap(mapName).get(key));
