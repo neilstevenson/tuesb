@@ -53,8 +53,8 @@ public class MyCallable implements Callable<String> {
         		key = data[j].f1();
         	} else {
         		if (mapNameDefault.equals(":")) {
-            		mapName = data[j].f0().substring(6, 7);
-            		key = data[j].f1();
+            		mapName = data[j].f0().substring(5, 13);
+            		key = data[j].f0().substring(14);
         		} else {
                 	mapName = mapNameDefault;
             		key = data[j].f0() + "-" + data[j].f1();
