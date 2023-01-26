@@ -65,6 +65,11 @@ public class MyCallable implements Callable<String> {
 			@SuppressWarnings("unused")
 			Object o = Objects.toString(this.hazelcastInstance.getMap(mapName).get(key));
 			long elapsedNano = System.nanoTime() - beforeNano;
+			if (o == null) {
+				System.out.println("Not found");
+				System.out.println(mapName);
+				System.out.println(key);
+			}
 
 			// Validate
 			//TimeUnit.NANOSECONDS.sleep(1L + this.random.nextInt(200));
