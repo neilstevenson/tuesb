@@ -66,7 +66,7 @@ public class Application {
 			
 			NearCacheConfig nearCacheConfig2 = new NearCacheConfig();
 			nearCacheConfig2.setEvictionConfig(evictionConfig2);
-			nearCacheConfig2.setName(nearCache);
+			nearCacheConfig2.setName(nearCache2);
 			
 			clientConfig.getNearCacheConfigMap().put(nearCacheConfig2.getName(), nearCacheConfig2);
 		}
