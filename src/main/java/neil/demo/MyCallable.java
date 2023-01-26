@@ -52,12 +52,17 @@ public class MyCallable implements Callable<String> {
         		mapName = data[j].f0();
         		key = data[j].f1();
         	} else {
-        		mapName = this.mapNameDefault;
-        		key = data[j].f0() + "-" + data[j].f1();
+        		if (mapNameDefault.equals(":")) {
+            		mapName = data[j].f0().substring(6, 7);
+            		key = data[j].f1();
+        		} else {
+                	mapName = mapNameDefault;
+            		key = data[j].f0() + "-" + data[j].f1();
+        		}
         	}
 			
-			@SuppressWarnings("unused")
 			long beforeNano = System.nanoTime();
+			@SuppressWarnings("unused")
 			Object o = Objects.toString(this.hazelcastInstance.getMap(mapName).get(key));
 			long elapsedNano = System.nanoTime() - beforeNano;
 
