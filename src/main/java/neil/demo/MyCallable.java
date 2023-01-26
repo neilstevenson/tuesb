@@ -62,7 +62,6 @@ public class MyCallable implements Callable<String> {
         	}
 			
 			long beforeNano = System.nanoTime();
-			@SuppressWarnings("unused")
 			Object o = Objects.toString(this.hazelcastInstance.getMap(mapName).get(key));
 			long elapsedNano = System.nanoTime() - beforeNano;
 			if (o == null) {

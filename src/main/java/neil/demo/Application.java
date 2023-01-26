@@ -16,15 +16,21 @@ import java.util.concurrent.TimeUnit;
 
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.config.EvictionConfig;
+import com.hazelcast.config.EvictionPolicy;
+import com.hazelcast.config.NearCacheConfig;
 import com.hazelcast.core.HazelcastInstance;
 
 public class Application {
+	private static final int NEAR_CACHE_SIZE = 50_000;
 	private static final String MY_NAME = "tuesb";
 	private static final TreeMap<String, String> treeMap = new TreeMap<>();
 	
 	public static void main(String[] args) throws Exception {
 		String input = System.getProperty("MY_INPUT");
 		String mapNameDefault = System.getProperty("MY_MAP_NAME", "");
+		String nearCache = System.getProperty("MY_NEAR_CACHE", "");
+		String nearCache2 = System.getProperty("MY_NEAR_CACHE2", "");
 		
 		ClientConfig clientConfig = new ClientConfig();
 
@@ -42,11 +48,37 @@ public class Application {
 					entry.getKey(), entry.getValue());
 		});
 		
+		if (nearCache.length() > 0) {
+			EvictionConfig evictionConfig = new EvictionConfig();
+			evictionConfig.setSize(NEAR_CACHE_SIZE);
+			evictionConfig.setEvictionPolicy(EvictionPolicy.LFU);
+			
+			NearCacheConfig nearCacheConfig = new NearCacheConfig();
+			nearCacheConfig.setEvictionConfig(evictionConfig);
+			nearCacheConfig.setName(nearCache);
+			
+			clientConfig.getNearCacheConfigMap().put(nearCacheConfig.getName(), nearCacheConfig);
+		}
+		if (nearCache.length() > 0) {
+			EvictionConfig evictionConfig2 = new EvictionConfig();
+			evictionConfig2.setSize(NEAR_CACHE_SIZE);
+			evictionConfig2.setEvictionPolicy(EvictionPolicy.LFU);
+			
+			NearCacheConfig nearCacheConfig2 = new NearCacheConfig();
+			nearCacheConfig2.setEvictionConfig(evictionConfig2);
+			nearCacheConfig2.setName(nearCache);
+			
+			clientConfig.getNearCacheConfigMap().put(nearCacheConfig2.getName(), nearCacheConfig2);
+		}
+		
+		
 		HazelcastInstance hazelcastInstance = HazelcastClient.newHazelcastClient(clientConfig);
 
     	System.out.println("START ------------" + new Date());
     	System.out.println("Input: " + Objects.toString(input));
     	System.out.println("MapName: '" + Objects.toString(mapNameDefault) + "'");
+    	System.out.println("nearCache: '" + Objects.toString(nearCache) + "'");
+    	System.out.println("nearCache2: '" + Objects.toString(nearCache2) + "'");
     	System.out.println("Map count " + hazelcastInstance.getDistributedObjects().size());
     	File file = new File(input);
     	
